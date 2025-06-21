@@ -63,7 +63,5 @@ export class Material {
 
   @OneToMany(() => Caracteristica, (caracteristica) => caracteristica.material)
   caracteristicas: Caracteristica[];
-  
-  @OneToMany(() => Inventario, (inventario) => inventario.material)
-  inventarios: Inventario[];
+ 
 }

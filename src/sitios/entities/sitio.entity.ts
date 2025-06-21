@@ -30,4 +30,6 @@ export class Sitio {
   @JoinColumn({ name: 'tipo_sitio_id' })
   tipo_sitio_id: TipoSitio;
 
+  @OneToMany(() => Inventario, inventario => inventario.sitio)
+  inventarios: Inventario[];
 }
