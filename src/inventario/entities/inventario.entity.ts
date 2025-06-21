@@ -14,7 +14,5 @@ export class Inventario {
   @JoinColumn({ name: 'material_id' })
   material: Material;
 
-  @ManyToOne(() => Sitio, sitio => sitio.inventarios)
-  @JoinColumn({ name: 'sitio_id' })
-  sitio: Sitio;
+
 }
