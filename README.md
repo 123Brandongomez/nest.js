@@ -96,3 +96,100 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=28&pause=1000&color=FF3F59&center=true&vCenter=true&width=600&lines=%F0%9F%94%A5+Bienvenido+a+tu+Backend+NestJS+%F0%9F%94%A5;Eficiente%2C+Escalable+y+Moderno+%F0%9F%9A%80" alt="Typing SVG" />
+</p>
+
+<p align="center">
+  <img src="https://media.giphy.com/media/LMt9638dO8dftAjtco/giphy.gif" width="120" alt="NestJS Animated Logo" />
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Hecho%20con-NestJS-ff3f59?style=for-the-badge&logo=nestjs&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Node.js-Backend-339933?style=for-the-badge&logo=node.js&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Tests-100%25%20Completados-brightgreen?style=for-the-badge&logo=jest&logoColor=white"/>
+</p>
+
+---
+
+## 🚀 Descripción
+
+**¡Bienvenido a tu proyecto NestJS!**  
+Este es un backend robusto, eficiente y escalable construido con [NestJS](https://nestjs.com/).  
+¡Prepárate para desarrollar APIs modernas y profesionales! 😎
+
+---
+
+## ⚡ Instalación rápida
+
+```bash
+npm install
+```
+
+---
+
+## 🛠️ Comandos útiles
+
+| Acción                | Comando                  |
+|-----------------------|-------------------------|
+| Iniciar desarrollo    | `npm run start`         |
+| Modo observador       | `npm run start:dev`     |
+| Producción            | `npm run start:prod`    |
+| Pruebas unitarias     | `npm run test`          |
+| Pruebas e2e           | `npm run test:e2e`      |
+| Cobertura de pruebas  | `npm run test:cov`      |
+
+---
+
+## 🌈 Animaciones y recursos visuales
+
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=FF3F59&height=120&section=header&text=NestJS%20Backend&fontSize=40&fontColor=fff&animation=twinkling" alt="Banner animado" />
+</p>
+
+---
+
+## 📦 Despliegue fácil
+
+¿Listo para producción?  
+Consulta la [documentación oficial de despliegue](https://docs.nestjs.com/deployment).
+
+### 🚀 Despliega en la nube con Mau
+
+```bash
+npm install -g @nestjs/mau
+mau deploy
+```
+
+---
+
+## 📚 Recursos recomendados
+
+- 📖 [Documentación oficial de NestJS](https://docs.nestjs.com)
+- 💬 [Canal de Discord](https://discord.gg/G7Qnnhy)
+- 🎥 [Cursos oficiales](https://courses.nestjs.com/)
+- 🛠️ [Devtools para NestJS](https://devtools.nestjs.com)
+- 💼 [Soporte empresarial](https://enterprise.nestjs.com)
+- 💻 [Bolsa de trabajo](https://jobs.nestjs.com)
+
+---
+
+## 🤝 Apoya el proyecto
+
+NestJS es open source bajo licencia MIT.  
+¡Apóyanos con una estrella ⭐ o conviértete en patrocinador!
+
+---
+
+## 👨‍💻 Autor y contacto
+
+- Autor: [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
+- Twitter: [@nestframework](https://twitter.com/nestframework)
+- Web: [nestjs.com](https://nestjs.com/)
+
+---
+
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=24&pause=1000&color=41B883&center=true&vCenter=true&width=600&lines=%F0%9F%9A%80+%C2%A1Listo+para+crear+algo+incre%C3%ADble!+%F0%9F%9A%80" alt="Typing SVG" />
+</p>
