@@ -19,9 +19,14 @@
 
 ---
 
-<!-- Sustituye la animación Snake por una animación de líneas verdes estilo Matrix -->
+<!-- Animación Snake moviéndose (verde y negro) -->
 <p align="center">
-  <img src="https://i.imgur.com/2yaf2wb.gif" width="800" alt="Matrix Green Lines Animation" />
+  <img src="https://raw.githubusercontent.com/Platane/snk/output/github-contribution-grid-snake-dark.svg" width="800" alt="Snake Animation" />
+</p>
+
+<!-- Borde animado verde y negro usando SVG (efecto visual en README, no real CSS) -->
+<p align="center">
+  <img src="https://svg-banners.vercel.app/api?type=rainbow&width=1000&height=20&color1=00FF99&color2=000000" alt="Borde Superior Animado" />
 </p>
 
 ---
@@ -64,6 +69,11 @@ docker-compose up -d
 
 <p align="center">
   <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=24&pause=1000&color=00FF99&center=true&vCenter=true&width=600&lines=%F0%9F%9A%80+%C2%A1Listo+para+crear+algo+incre%C3%ADble!+%F0%9F%9A%80" alt="Typing SVG" />
+</p>
+
+<!-- Borde animado verde y negro usando SVG (efecto visual en README, no real CSS) -->
+<p align="center">
+  <img src="https://svg-banners.vercel.app/api?type=rainbow&width=1000&height=20&color1=00FF99&color2=000000" alt="Borde Inferior Animado" />
 </p>
 
 ---
