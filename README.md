@@ -19,8 +19,9 @@
 
 ---
 
+<!-- Sustituye la animación Snake por una animación de líneas verdes estilo Matrix -->
 <p align="center">
-  <img src="https://media.githubusercontent.com/media/Platane/snk/output/github-contribution-grid-snake-dark.svg" width="800" alt="Snake Animation" />
+  <img src="https://i.imgur.com/2yaf2wb.gif" width="800" alt="Matrix Green Lines Animation" />
 </p>
 
 ---
@@ -40,6 +41,8 @@ Instala las dependencias necesarias con:
 
 ```bash
 npm install
+
+docker-compose up -d
 ```
 
 ---
@@ -51,13 +54,9 @@ npm install
 | Iniciar desarrollo    | `npm run start`         |
 | Modo observador       | `npm run start:dev`     |
 | Producción            | `npm run start:prod`    |
-| Pruebas unitarias     | `npm run test`          |
-| Pruebas e2e           | `npm run test:e2e`      |
-| Cobertura de pruebas  | `npm run test:cov`      |
+
 
 ---
-
-## 🌈 Animaciones y recursos visuales
 
 <p align="center">
   <img src="https://media.tenor.com/2uyENRmiUt0AAAAC/coding.gif" width="400" alt="Animación Código Verde" />
