@@ -12,4 +12,10 @@ export class Inventario {
   @ManyToOne(() => Sitio, sitio => sitio.inventarios)
   @JoinColumn({ name: 'sitio_id' })
   sitio: Sitio;
+
+  @Column({ nullable: true, length: 255 })
+  placa_sena?: string;
+
+  @Column({ type: 'text', nullable: true })
+  descripcion?: string;
 }

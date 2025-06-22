@@ -42,14 +42,14 @@ export class PermisoService {
 
   async findAll(): Promise<Permiso[]> {
     return this.permisoRepository.find({
-      relations: ['modulo', 'rol'],
+      relations: ['modulo_id', 'rol_id'],
     });
   }
 
   async findOne(id: number): Promise<Permiso> {
     const permiso = await this.permisoRepository.findOne({
       where: { id_permiso: id },
-      relations: ['modulo', 'rol'],
+      relations: ['modulo_id', 'rol_id'],
     });
 
     if (!permiso) {

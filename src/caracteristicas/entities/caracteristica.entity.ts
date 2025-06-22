@@ -3,19 +3,17 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "t
 
 @Entity()
 export class Caracteristica {
+  @PrimaryGeneratedColumn()
+  id_caracteristica: number;
 
-    @PrimaryGeneratedColumn()
-    id_caracteristica: number;
+  @Column({ default: false })
+  placa_sena: boolean;
 
-    @Column({ length: 255 })
-    placa_sena: string;
+  @Column({ default: false })
+  descripcion: boolean;
 
-    @Column('text')
-    descripcion: string;
-
-    @ManyToOne(() => Material, material => material.caracteristicas)
-    @JoinColumn({ name: 'material_id' })
-    material: Material;
-
-
+  @ManyToOne(() => Material, material => material.caracteristicas)
+  @JoinColumn({ name: 'material_id' })
+  material: Material;
 }
+

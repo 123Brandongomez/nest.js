@@ -3,19 +3,15 @@ import { IsInt, IsNotEmpty, IsOptional, IsPositive, IsString } from 'class-valid
 export class CreateCaracteristicaDto {
   @IsNotEmpty()
   @IsString()
-  placa_sena: string;
+  placa_sena: boolean;
 
   @IsNotEmpty()
   @IsString()
-  descripcion: string;
+  descripcion: boolean;
 
   @IsNotEmpty()
   @IsInt()
   @IsPositive()
   material_id: number;
 
-  @IsOptional()
-  @IsInt()
-  @IsPositive()
-  sitio_id?: number;
 }

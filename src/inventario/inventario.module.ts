@@ -5,10 +5,11 @@ import { InventarioController } from './inventario.controller';
 import { Inventario } from './entities/inventario.entity';
 import { Material } from '../materiales/entities/materiale.entity';
 import { Sitio } from '../sitios/entities/sitio.entity';
+import { Caracteristica } from 'src/caracteristicas/entities/caracteristica.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Inventario, Material, Sitio])
+    TypeOrmModule.forFeature([Inventario, Material, Sitio, Caracteristica])
   ],
   controllers: [InventarioController],
   providers: [InventarioService],
