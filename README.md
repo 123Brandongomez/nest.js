@@ -49,6 +49,10 @@ npm install
 
 docker-compose up -d
 ```
+```bash
+
+docker-compose up -d
+```
 
 ---
 
@@ -86,15 +90,6 @@ docker-compose up -d
 - 🛠️ [Devtools para NestJS](https://devtools.nestjs.com)
 - 💼 [Soporte empresarial](https://enterprise.nestjs.com)
 - 💻 [Bolsa de trabajo](https://jobs.nestjs.com)
-
----
-
-## 🤝 Apoya el proyecto
-
-NestJS es open source bajo licencia MIT.  
-¡Apóyanos con una estrella ⭐ o conviértete en patrocinador!
-
----
 
 <p align="center">
   <img src="https://capsule-render.vercel.app/api?type=rect&color=0f0,000&height=80&section=footer&text=Hecho%20con%20%E2%9D%A4%EF%B8%8F%20y%20NestJS&fontSize=30&fontColor=00FF99&animation=fadeIn" alt="Footer animado" />
