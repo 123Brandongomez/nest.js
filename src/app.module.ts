@@ -22,6 +22,8 @@ import { SeedModule } from './seeds/permisos/seed.module';
 
 // Importar módulos comunes
 import { ConfigModule, DatabaseModule } from './common/modules';
+import { PermissionModule } from './common/guards/permission.module';
+import { GlobalGuardsModule } from './common/guards/global-guards.module';
 import { HttpExceptionFilter } from './common/filters';
 import { TransformInterceptor } from './common/interceptors';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
@@ -33,6 +35,12 @@ import { InventarioModule } from './inventario/inventario.module';
     // conexiona  a la base de datos
     ConfigModule.register(),
     DatabaseModule.register(),
+    
+    // Módulo de permisos personalizado
+    PermissionModule,
+    
+    // Módulo de guards globales para requerir token en todas las rutas
+    GlobalGuardsModule,
   
     UsuariosModule, 
     RolesModule, 

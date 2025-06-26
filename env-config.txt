@@ -1,0 +1,20 @@
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=postgres
+DB_PASSWORD=1061
+DB_NAME=boxware
+PORT=3000
+
+JWT_SECRET=your_super_secret_key_here
+
+#seed configuracion roles
+SEED_ROLE_ADMIN=Super Administrador
+
+# Seed configuracion usurio
+SEED_ADMIN_NOMBRE=brandonnn
+SEED_ADMIN_APELLIDO=gomezzzz
+SEED_ADMIN_EDAD=15
+SEED_ADMIN_CEDULA=1083984508
+SEED_ADMIN_EMAIL=brand@admin.com
+SEED_ADMIN_PASSWORD=passwordd
+SEED_ADMIN_TELEFONO=0000000000

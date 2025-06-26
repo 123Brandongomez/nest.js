@@ -22,6 +22,8 @@ export class AuthService {
    * @throws UnauthorizedException si las credenciales son inválidas
    */
   async login(email: string, contrasena: string) {
+    console.log(`Intentando login para usuario: ${email}`);
+    
     // Buscar usuario por email
     const usuario = await this.vendedorRepository.findOne({
       where: { email },
@@ -30,11 +32,16 @@ export class AuthService {
 
     // Si no existe el usuario o la contraseña no coincide, lanzar excepción
     if (!usuario) {
+      console.log(`Usuario no encontrado: ${email}`);
       throw new UnauthorizedException('Credenciales inválidas');
     }
 
+    console.log(`Usuario encontrado: ${usuario.email}, Rol: ${usuario.rol?.nombre_rol}`);
+
     // Comparar la contraseña ingresada con el hash almacenado
     const hash = crypto.createHash('sha256').update(contrasena).digest('hex');
+    console.log(`Verificando contraseña: ${hash === usuario.contrasena ? 'Correcta' : 'Incorrecta'}`);
+    
     if (hash !== usuario.contrasena) {
       throw new UnauthorizedException('Credenciales inválidas');
     }
@@ -52,10 +59,14 @@ export class AuthService {
     // Crear payload del token
     const payload = {
       sub: usuario.id_usuario, // Usar 'sub' como estándar JWT para el ID
+      id_usuario: usuario.id_usuario,
       nombre: usuario.nombre,
       email: usuario.email,
-      rol: usuario.rol_id,
+      rol_id: usuario.rol_id,
+      nombre_rol: usuario.rol?.nombre_rol
     };
+
+    console.log('Generando token con payload:', payload);
 
     // Devolver token y datos del usuario
     return {
@@ -64,7 +75,8 @@ export class AuthService {
         id: usuario.id_usuario,
         nombre: usuario.nombre,
         email: usuario.email,
-        rol: usuario.rol_id
+        rol_id: usuario.rol_id,
+        nombre_rol: usuario.rol?.nombre_rol
         // No incluir datos sensibles como la contraseña
       }
     };

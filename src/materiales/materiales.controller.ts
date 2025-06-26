@@ -21,12 +21,14 @@ import { FileValidationPipe } from '../common/pipes';
 import { ImagenesService } from '../common/services';
 import { APP_CONSTANTS } from '../common/constants';
 import { JwtAuthGuard } from '../common/guards';
+import { PermissionGuard } from '../common/guards/permission.guard';
+import { RequirePermiso } from '../common/decorators/permission.decorator';
 
 // ✅ Importar decorador personalizado
 import { UploadFile } from '../common/decorators/upload-file.decorator';
 
 @Controller('materiales')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, PermissionGuard)
 export class MaterialesController {
   constructor(
     private readonly materialesService: MaterialesService,
@@ -34,6 +36,7 @@ export class MaterialesController {
   ) {}
 
   @Post()
+  @RequirePermiso('materiales', 'crear')
   @UploadFile('imagen')
   @UseInterceptors(FileResponseInterceptor)
   async create(
@@ -56,21 +59,25 @@ export class MaterialesController {
   }
 
   @Get()
+  @RequirePermiso('materiales', 'ver')
   findAll() {
     return this.materialesService.findAll();
   }
 
   @Get(':id')
+  @RequirePermiso('materiales', 'ver')
   findOne(@Param('id') id: string) {
     return this.materialesService.findOne(+id);
   }
 
   @Put(':id')
+  @RequirePermiso('materiales', 'actualizar')
   update(@Param('id') id: string, @Body() updateMaterialeDto: UpdateMaterialeDto) {
     return this.materialesService.update(+id, updateMaterialeDto);
   }
 
   @Delete(':id')
+  @RequirePermiso('materiales', 'actualizar')
   remove(@Param('id') id: string) {
     return this.materialesService.remove(+id);
   }

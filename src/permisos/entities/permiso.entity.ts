@@ -1,4 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+  JoinColumn,
+} from 'typeorm';
 import { Rol } from '../../roles/entities/role.entity';
 import { Modulo } from '../../modulos/entities/modulo.entity';
 
@@ -15,6 +23,18 @@ export class Permiso {
 
   @Column({ type: 'boolean', default: true })
   estado: boolean;
+
+  @Column({ type: 'boolean', nullable: true })
+  puede_ver: boolean;
+
+  @Column({ type: 'boolean', nullable: true })
+  puede_crear: boolean;
+
+  @Column({ type: 'boolean', nullable: true })
+  puede_actualizar: boolean;
+
+  @Column({ type: 'boolean', nullable: true })
+  puede_eliminar: boolean;
 
   @CreateDateColumn()
   fecha_creacion: Date;

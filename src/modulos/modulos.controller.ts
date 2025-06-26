@@ -1,15 +1,20 @@
-import { Controller, Get, Post, Body, Put, Param, Delete, UseInterceptors, UploadedFile, BadRequestException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, UseInterceptors, UploadedFile, BadRequestException, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
+import { PermissionGuard } from '../common/guards/permission.guard';
+import { RequirePermiso } from '../common/decorators/permission.decorator';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ModulosService } from './modulos.service';
 import { CreateModuloDto } from './dto/create-modulo.dto';
 import { UpdateModuloDto } from './dto/update-modulo.dto';
 
 @Controller('modulos')
+@UseGuards(JwtAuthGuard, PermissionGuard)
 export class ModulosController {
   constructor(private readonly modulosService: ModulosService) {}
 
   @Post()
   @UseInterceptors(FileInterceptor('imagen'))
+  @RequirePermiso('modulos', 'crear')
   async create(
     @UploadedFile() file: Express.Multer.File,
     @Body() createModuloDto: CreateModuloDto
@@ -30,21 +35,25 @@ export class ModulosController {
   }
 
   @Get()
+  @RequirePermiso('modulos', 'ver')
   findAll() {
     return this.modulosService.findAll();
   }
 
   @Get(':id')
+  @RequirePermiso('modulos', 'ver')
   findOne(@Param('id') id: string) {
     return this.modulosService.findOne(+id);
   }
 
   @Put(':id')
+  @RequirePermiso('modulos', 'actualizar')
   update(@Param('id') id: string, @Body() updateModuloDto: UpdateModuloDto) {
     return this.modulosService.update(+id, updateModuloDto);
   }
 
   @Delete(':id')
+  @RequirePermiso('modulos', 'eliminar')
   remove(@Param('id') id: string) {
     return this.modulosService.remove(+id);
   }

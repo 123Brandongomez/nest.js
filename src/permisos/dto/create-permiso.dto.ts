@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString, IsBoolean } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, IsBoolean, IsOptional } from 'class-validator';
 import { Transform } from 'class-transformer';
 
 export class CreatePermisoDto {
@@ -12,14 +12,31 @@ export class CreatePermisoDto {
 
   @IsNotEmpty()
   @IsNumber()
-  modulo: number;
+  modulo_id: number; // Usamos "_id" para claridad
 
   @IsNotEmpty()
   @IsNumber()
-  rol: number;
+  rol_id: number;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsBoolean()
-  @Transform(({ value }) => value === 'true' || value === true || value === 1) // Convierte 1 o "true" a booleano
-  estado: boolean; 
+  @Transform(({ value }) => value === 'true' || value === true || value === 1)
+  puede_ver?: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  @Transform(({ value }) => value === 'true' || value === true || value === 1)
+  puede_crear?: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  @Transform(({ value }) => value === 'true' || value === true || value === 1)
+  puede_actualizar?: boolean;
+
+
+
+  @IsOptional()
+  @IsBoolean()
+  @Transform(({ value }) => value === 'true' || value === true || value === 1)
+  estado?: boolean;
 }

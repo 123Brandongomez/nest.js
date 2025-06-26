@@ -58,14 +58,14 @@ export class MaterialesService {
 
   async findAll(): Promise<Material[]> {
     return this.materialRepo.find({
-      relations: ['categoria', 'tipoMaterial', 'sitio'],
+      relations: ['categoria_id', 'tipo_material_id'],
     });
   }
 
   async findOne(id: number | string): Promise<Material> {
     const material = await this.materialRepo.findOne({
       where: { id_material: Number(id) },
-      relations: ['categoria', 'tipoMaterial', 'sitio'],
+      relations: ['categoria_id', 'tipo_material_id'],
     });
 
     if (!material) {

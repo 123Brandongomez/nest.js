@@ -158,34 +158,61 @@ export class SeedService implements OnModuleInit {
   }
 
   private async createPermissions() {
+    this.logger.log('Iniciando creación de permisos para Super Administrador...');
+    
+    // Buscar el rol de Super Administrador
     const admin = await this.rolRepo.findOneBy({ nombre_rol: process.env.SEED_ROLE_ADMIN });
-    if (!admin) return this.logger.error('Rol admin no encontrado');
+    if (!admin) {
+      this.logger.error(`Rol ${process.env.SEED_ROLE_ADMIN} no encontrado`);
+      return;
+    }
+    
+    this.logger.log(`Rol ${admin.nombre_rol} encontrado con ID: ${admin.id_rol}`);
 
+    // Obtener todos los módulos
     const modulos = await this.moduloRepo.find();
+    this.logger.log(`Se encontraron ${modulos.length} módulos para asignar permisos`);
+    
+    // Para cada módulo, crear un permiso completo para el Super Administrador
     for (const modulo of modulos) {
       if (!modulo?.rutas) continue;
-
-      const acciones = ['ver', 'crear', 'editar'];
-      for (const accion of acciones) {
-        const nombre = `${accion[0].toUpperCase() + accion.slice(1)} ${modulo.rutas}`;
-        const codigo = `${accion}_${modulo.rutas.toLowerCase().replace(/ /g, '_')}`;
-        const existe = await this.permisoRepo.findOneBy({
-          codigo_nombre: codigo,
-        });
-
-        if (!existe) {
-          await this.permisoRepo.save({
-            nombre,
-            codigo_nombre: codigo,
-            estado: true,
-            modulo_id: modulo,
-            rol_id: admin,
-          });
-          this.logger.log(`Permiso creado: ${nombre}`);
-        } else {
-          this.logger.log(`Permiso ya existe: ${nombre}`);
+      
+      // Verificar si ya existe un permiso para este módulo y rol
+      const permisoExistente = await this.permisoRepo.findOne({
+        where: {
+          modulo_id: { id_modulo: modulo.id_modulo },
+          rol_id: { id_rol: admin.id_rol }
         }
+      });
+      
+      if (!permisoExistente) {
+        // Crear un nuevo permiso con todos los privilegios
+        const nuevoPermiso = this.permisoRepo.create({
+          nombre: `Permiso completo para ${modulo.rutas}`,
+          codigo_nombre: `permiso_completo_${modulo.rutas.toLowerCase().replace(/ /g, '_')}`,
+          puede_ver: true,
+          puede_crear: true,
+          puede_actualizar: true,
+          puede_eliminar: true,
+          estado: true,
+          modulo_id: modulo,
+          rol_id: admin
+        });
+        
+        await this.permisoRepo.save(nuevoPermiso);
+        this.logger.log(`✅ Permiso completo creado para módulo: ${modulo.rutas}`);
+      } else {
+        // Actualizar el permiso existente para asegurar que tiene todos los privilegios
+        permisoExistente.puede_ver = true;
+        permisoExistente.puede_crear = true;
+        permisoExistente.puede_actualizar = true;
+        permisoExistente.puede_eliminar = true;
+        
+        await this.permisoRepo.save(permisoExistente);
+        this.logger.log(`✅ Permiso actualizado para módulo: ${modulo.rutas}`);
       }
     }
+    
+    this.logger.log('Finalizada la creación de permisos para Super Administrador');
   }
 }
