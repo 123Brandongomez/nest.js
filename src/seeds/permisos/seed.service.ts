@@ -126,10 +126,25 @@ export class SeedService implements OnModuleInit {
       try {
         let modulo = await this.moduloRepo.findOneBy({ rutas: m.rutas });
         if (!modulo) {
-          if (esSub && m.modulo_padre_id && mapa.has(m.modulo_padre_id)) {
-            m.modulo_padre = mapa.get(m.modulo_padre_id);
+          // Conservamos el modulo_padre_id original del JSON
+          const moduloPadreId = m.modulo_padre_id;
+          
+          // Si es un submódulo y tiene modulo_padre_id y ese módulo ya existe en nuestro mapa
+          if (esSub && moduloPadreId && mapa.has(moduloPadreId)) {
+            m.modulo_padre = mapa.get(moduloPadreId);
+            // Aseguramos que el modulo_padre_id se mantenga
+            m.modulo_padre_id = moduloPadreId;
           }
+          
+          this.logger.log(`Creando módulo ${m.rutas} con modulo_padre_id: ${m.modulo_padre_id}`);
           modulo = await this.createOrUpdateModulo(m);
+        } else {
+          // Si el módulo ya existe pero no tiene modulo_padre_id, actualizarlo
+          if (m.modulo_padre_id && !modulo.modulo_padre_id) {
+            modulo.modulo_padre_id = m.modulo_padre_id;
+            await this.moduloRepo.save(modulo);
+            this.logger.log(`Actualizado modulo_padre_id para ${modulo.rutas}: ${m.modulo_padre_id}`);
+          }
         }
         if (modulo) mapa.set(modulo.id_modulo, modulo);
       } catch (e) {
@@ -147,7 +162,8 @@ export class SeedService implements OnModuleInit {
         imagen: data.imagen || '',
         estado: data.estado,
         es_submenu: data.es_submenu,
-        modulo_padre: data.modulo_padre, // solo usamos la relación, no el ID directo
+        modulo_padre: data.modulo_padre, // Relación con el módulo padre
+        modulo_padre_id: data.modulo_padre_id, // ID directo del módulo padre
       };
       const modulo = this.moduloRepo.create(moduloToCreate);
       return await this.moduloRepo.save(modulo);

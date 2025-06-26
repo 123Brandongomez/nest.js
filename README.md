@@ -47,7 +47,6 @@ Instala las dependencias necesarias con:
 ```bash
 npm install
 
-docker-compose up -d
 ```
 ```bash
 
