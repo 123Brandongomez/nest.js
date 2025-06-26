@@ -61,6 +61,6 @@ async function bootstrap() {
   // Añadir interceptor global para transformar respuestas
   app.useGlobalInterceptors(new TransformInterceptor());
 
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(process.env.PORT || 3000);
 }
 bootstrap();

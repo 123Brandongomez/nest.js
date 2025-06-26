@@ -99,10 +99,19 @@ export class SeedService implements OnModuleInit {
       const raw = fs.readFileSync(jsonPath, 'utf8').replace(/\/\*.*?\*\//g, '');
       const modulosData = JSON.parse(raw)?.data?.data || [];
 
+      this.logger.log(`Cargados ${modulosData.length} módulos desde el archivo JSON`);
+      
+      // Ordenamos los módulos para procesar primero los que no tienen padre
       const modulosPorId = new Map<number, Modulo>();
-      const [mainModules, subModules] = this.separarModulos(modulosData);
-
+      
+      // Primero procesamos los módulos principales (sin modulo_padre_id)
+      const mainModules = modulosData.filter(m => !m.modulo_padre_id || !m.es_submenu);
+      this.logger.log(`Procesando ${mainModules.length} módulos principales`);
       await this.procesarModulos(mainModules, modulosPorId);
+      
+      // Luego procesamos los submódulos (con modulo_padre_id)
+      const subModules = modulosData.filter(m => m.modulo_padre_id || m.es_submenu);
+      this.logger.log(`Procesando ${subModules.length} submódulos`);
       await this.procesarModulos(subModules, modulosPorId, true);
 
       this.logger.log('Módulos creados correctamente');
@@ -111,11 +120,7 @@ export class SeedService implements OnModuleInit {
     }
   }
 
-  private separarModulos(modulos: any[]) {
-    const main = modulos.filter((m) => !m.es_submenu);
-    const subs = modulos.filter((m) => m.es_submenu);
-    return [main, subs];
-  }
+  // El método separarModulos ya no es necesario porque filtramos directamente en createModules
 
   private async procesarModulos(
     modulos: any[],
@@ -126,26 +131,53 @@ export class SeedService implements OnModuleInit {
       try {
         let modulo = await this.moduloRepo.findOneBy({ rutas: m.rutas });
         if (!modulo) {
-          // Conservamos el modulo_padre_id original del JSON
-          const moduloPadreId = m.modulo_padre_id;
-          
-          // Si es un submódulo y tiene modulo_padre_id y ese módulo ya existe en nuestro mapa
-          if (esSub && moduloPadreId && mapa.has(moduloPadreId)) {
-            m.modulo_padre = mapa.get(moduloPadreId);
-            // Aseguramos que el modulo_padre_id se mantenga
-            m.modulo_padre_id = moduloPadreId;
+          // Si no es un submódulo o no tiene modulo_padre_id, lo creamos sin referencia al padre
+          if (!esSub || !m.modulo_padre_id) {
+            // Eliminamos el modulo_padre_id para evitar errores de clave foránea
+            const moduloData = { ...m };
+            delete moduloData.modulo_padre_id;
+            
+            this.logger.log(`Creando módulo principal ${m.rutas}`);
+            modulo = await this.createOrUpdateModulo(moduloData);
+          } 
+          // Si es un submódulo y tiene modulo_padre_id, verificamos que el padre exista
+          else {
+            const moduloPadreId = m.modulo_padre_id;
+            
+            // Verificar si el módulo padre existe en la base de datos
+            const moduloPadre = await this.moduloRepo.findOneBy({ id_modulo: moduloPadreId });
+            
+            if (moduloPadre) {
+              // Si el padre existe, establecemos la relación
+              m.modulo_padre = moduloPadre;
+              this.logger.log(`Creando submódulo ${m.rutas} con padre ${moduloPadre.rutas} (ID: ${moduloPadreId})`);
+              modulo = await this.createOrUpdateModulo(m);
+            } else {
+              // Si el padre no existe, creamos el módulo sin referencia al padre
+              const moduloData = { ...m };
+              delete moduloData.modulo_padre_id;
+              
+              this.logger.log(`Creando módulo ${m.rutas} sin padre porque el padre ID:${moduloPadreId} no existe`);
+              modulo = await this.createOrUpdateModulo(moduloData);
+            }
           }
-          
-          this.logger.log(`Creando módulo ${m.rutas} con modulo_padre_id: ${m.modulo_padre_id}`);
-          modulo = await this.createOrUpdateModulo(m);
         } else {
-          // Si el módulo ya existe pero no tiene modulo_padre_id, actualizarlo
-          if (m.modulo_padre_id && !modulo.modulo_padre_id) {
-            modulo.modulo_padre_id = m.modulo_padre_id;
-            await this.moduloRepo.save(modulo);
-            this.logger.log(`Actualizado modulo_padre_id para ${modulo.rutas}: ${m.modulo_padre_id}`);
+          // Si el módulo ya existe y tiene modulo_padre_id, verificamos que el padre exista
+          if (m.modulo_padre_id) {
+            const moduloPadre = await this.moduloRepo.findOneBy({ id_modulo: m.modulo_padre_id });
+            
+            if (moduloPadre) {
+              // Actualizamos la relación si el padre existe
+              modulo.modulo_padre_id = m.modulo_padre_id;
+              modulo.modulo_padre = moduloPadre;
+              await this.moduloRepo.save(modulo);
+              this.logger.log(`Actualizado modulo_padre_id para ${modulo.rutas}: ${m.modulo_padre_id}`);
+            } else {
+              this.logger.warn(`No se actualizó el módulo ${modulo.rutas} porque el padre ID:${m.modulo_padre_id} no existe`);
+            }
           }
         }
+        
         if (modulo) mapa.set(modulo.id_modulo, modulo);
       } catch (e) {
         this.logger.error(`Error en módulo ${m.rutas}: ${e.message}`);
