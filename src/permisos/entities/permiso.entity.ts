@@ -15,10 +15,10 @@ export class Permiso {
   @PrimaryGeneratedColumn()
   id_permiso: number;
 
-  @Column()
+  @Column({ nullable: true })
   nombre: string;
 
-  @Column({ length: 100 })
+  @Column({ length: 100, nullable: true })
   codigo_nombre: string;
 
   @Column({ type: 'boolean', default: true })
