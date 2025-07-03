@@ -18,9 +18,6 @@ export class Permiso {
   @Column({ nullable: true })
   nombre: string;
 
-  @Column({ length: 100, nullable: true })
-  codigo_nombre: string;
-
   @Column({ type: 'boolean', default: true })
   estado: boolean;
 

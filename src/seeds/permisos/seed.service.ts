@@ -237,7 +237,6 @@ export class SeedService implements OnModuleInit {
         // Crear un nuevo permiso con todos los privilegios
         const nuevoPermiso = this.permisoRepo.create({
           nombre: `Permiso completo para ${modulo.rutas}`,
-          codigo_nombre: `permiso_completo_${modulo.rutas.toLowerCase().replace(/ /g, '_')}`,
           puede_ver: true,
           puede_crear: true,
           puede_actualizar: true,

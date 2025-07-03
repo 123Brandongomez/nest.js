@@ -21,23 +21,44 @@ export class PermisoService {
     private readonly usuarioRepository: Repository<Usuario>,
   ) {}
 
-  async create(createPermisoDto: CreatePermisoDto): Promise<Permiso> {
-    const { rol_id, modulo_id, ...resto } = createPermisoDto;
+  async create(createPermisoDto: CreatePermisoDto): Promise<Permiso[]> {
+  const { rol_id, modulo_id: modulosIds, ...datosPermiso } = createPermisoDto;
 
-    const rol = await this.rolRepository.findOneBy({ id_rol: rol_id });
-    if (!rol) throw new NotFoundException(`Rol con ID ${rol_id} no encontrado`);
+  if (Array.isArray(rol_id)) {
+    throw new NotFoundException(`Se esperaba un solo ID de rol, pero se recibió un array.`);
+  }
 
-    const modulo = await this.moduloRepository.findOneBy({ id_modulo: modulo_id });
-    if (!modulo) throw new NotFoundException(`Módulo con ID ${modulo_id} no encontrado`);
+  if (Array.isArray(rol_id)) {
+    throw new NotFoundException(`Se esperaba un solo ID de rol, pero se recibió un array.`);
+  }
+  const rol = await this.rolRepository.findOneBy({ id_rol: rol_id });
+  if (!rol) {
+    throw new NotFoundException(`Rol con ID ${rol_id} no encontrado`);
+  }
 
-    const permiso = this.permisoRepository.create({
-      ...resto,
+  const modulos = await this.moduloRepository.findByIds(modulosIds);
+  if (modulos.length !== modulosIds.length) {
+    const encontradosIds = modulos.map(m => m.id_modulo);
+    const noEncontrados = modulosIds.filter(id => !encontradosIds.includes(id));
+    throw new NotFoundException(`Módulos no encontrados: ${noEncontrados.join(', ')}`);
+  }
+
+  const permisos = modulos.map(modulo => {
+    return this.permisoRepository.create({
+      nombre: `${datosPermiso.nombre} - ${modulo.descripcion_ruta || modulo.rutas}`,
+      puede_ver: datosPermiso.puede_ver ?? false,
+      puede_crear: datosPermiso.puede_crear ?? false,
+      puede_actualizar: datosPermiso.puede_actualizar ?? false,
+      puede_eliminar: false, // O puedes agregarlo si está en el DTO
+      estado: datosPermiso.estado ?? true,
       rol_id: rol,
       modulo_id: modulo,
     });
+  });
 
-    return this.permisoRepository.save(permiso);
-  }
+  return await this.permisoRepository.save(permisos);
+}
+
 
   async findAll(): Promise<Permiso[]> {
     return this.permisoRepository.find({
@@ -66,12 +87,18 @@ export class PermisoService {
 
     // Actualizar relaciones si vienen en el DTO
     if (updatePermisoDto.modulo_id) {
+      if (Array.isArray(updatePermisoDto.modulo_id)) {
+        throw new NotFoundException(`Se esperaba un solo ID de módulo, pero se recibió un array.`);
+      }
       const modulo = await this.moduloRepository.findOneBy({ id_modulo: updatePermisoDto.modulo_id });
       if (!modulo) throw new NotFoundException(`Módulo con ID ${updatePermisoDto.modulo_id} no encontrado`);
       permiso.modulo_id = modulo;
     }
 
     if (updatePermisoDto.rol_id) {
+      if (Array.isArray(updatePermisoDto.rol_id)) {
+        throw new NotFoundException(`Se esperaba un solo ID de rol, pero se recibió un array.`);
+      }
       const rol = await this.rolRepository.findOneBy({ id_rol: updatePermisoDto.rol_id });
       if (!rol) throw new NotFoundException(`Rol con ID ${updatePermisoDto.rol_id} no encontrado`);
       permiso.rol_id = rol;
@@ -79,7 +106,6 @@ export class PermisoService {
 
     // Actualizar campos simples
     permiso.nombre = updatePermisoDto.nombre ?? permiso.nombre;
-    permiso.codigo_nombre = updatePermisoDto.codigo_nombre ?? permiso.codigo_nombre;
     permiso.puede_ver = updatePermisoDto.puede_ver ?? permiso.puede_ver;
     permiso.puede_crear = updatePermisoDto.puede_crear ?? permiso.puede_crear;
     permiso.puede_actualizar = updatePermisoDto.puede_actualizar ?? permiso.puede_actualizar;
@@ -143,13 +169,23 @@ export class PermisoService {
     
     const { rol_id, modulo_id, ...datosPermiso } = createPermisoDto;
     
+    // Validar que rol_id no sea un array
+    if (Array.isArray(rol_id)) {
+      throw new NotFoundException(`Se esperaba un solo ID de rol, pero se recibió un array.`);
+    }
+
     // Buscar el rol y el módulo
     const rol = await this.rolRepository.findOneBy({ id_rol: rol_id });
     if (!rol) {
       throw new NotFoundException(`Rol con ID ${rol_id} no encontrado`);
     }
     
-    const modulo = await this.moduloRepository.findOneBy({ id_modulo: modulo_id });
+    let modulo;
+    if (Array.isArray(modulo_id)) {
+      throw new NotFoundException(`Se esperaba un solo ID de módulo, pero se recibió un array.`);
+    } else {
+      modulo = await this.moduloRepository.findOneBy({ id_modulo: modulo_id });
+    }
     if (!modulo) {
       throw new NotFoundException(`Módulo con ID ${modulo_id} no encontrado`);
     }
@@ -172,7 +208,6 @@ export class PermisoService {
       // Crear un nuevo permiso
       permiso = this.permisoRepository.create({
         nombre: datosPermiso.nombre || `Permiso ${modulo.descripcion_ruta} para ${rol.nombre_rol}`,
-        codigo_nombre: datosPermiso.codigo_nombre || `${modulo.rutas}_${rol.nombre_rol}`.toLowerCase().replace(/\s+/g, '_'),
         rol_id: rol,
         modulo_id: modulo,
         puede_ver: datosPermiso.puede_ver ?? false,
@@ -221,7 +256,6 @@ export class PermisoService {
       // Crear un nuevo permiso
       permiso = this.permisoRepository.create({
         nombre: `Permiso ${modulo.descripcion_ruta} para ${rol.nombre_rol}`,
-        codigo_nombre: `${modulo.rutas}_${rol.nombre_rol}`.toLowerCase().replace(/\s+/g, '_'),
         rol_id: rol,
         modulo_id: modulo,
         puede_ver: puede_ver ?? false,

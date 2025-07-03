@@ -39,7 +39,7 @@ export class CreateUsuarioDto {
 
   @IsNotEmpty()
   @IsNumber()
-  rol_id: number;
+  rol_id: number[];
 
   @IsOptional()
   @IsString()

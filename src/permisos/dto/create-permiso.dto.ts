@@ -6,17 +6,14 @@ export class CreatePermisoDto {
   @IsString()
   nombre: string;
 
-  @IsNotEmpty()
-  @IsString()
-  codigo_nombre: string;
 
   @IsNotEmpty()
-  @IsNumber()
-  modulo_id: number; // Usamos "_id" para claridad
+  @IsNumber({}, { each: true })
+  modulo_id: number[]; 
 
   @IsNotEmpty()
-  @IsNumber()
-  rol_id: number;
+  @IsNumber({}, { each: true })
+  rol_id: number[];
 
   @IsOptional()
   @IsBoolean()

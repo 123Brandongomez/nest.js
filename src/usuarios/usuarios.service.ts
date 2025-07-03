@@ -18,7 +18,8 @@ export class UsuariosService {
   ) {}
 
   async create(dto: CreateUsuarioDto): Promise<Usuario> {
-    const rol = await this.rolRepo.findOneBy({ id_rol: dto.rol_id });
+    const rolId = Array.isArray(dto.rol_id) ? dto.rol_id[0] : dto.rol_id;
+    const rol = await this.rolRepo.findOneBy({ id_rol: rolId });
     if (!rol) throw new NotFoundException(`Rol con ID ${dto.rol_id} no encontrado`);
 
     let hashedPassword = dto.contrasena;
@@ -62,8 +63,9 @@ export class UsuariosService {
     const { rol_id, ...updateData } = dto;
 
     if (rol_id) {
-      const rol = await this.rolRepo.findOneBy({ id_rol: rol_id });
-      if (!rol) throw new NotFoundException(`Rol con ID ${rol_id} no encontrado`);
+      const rolId = Array.isArray(rol_id) ? rol_id[0] : rol_id;
+      const rol = await this.rolRepo.findOneBy({ id_rol: rolId });
+      if (!rol) throw new NotFoundException(`Rol con ID ${rolId} no encontrado`);
       usuario.rol = rol;
     }
 
