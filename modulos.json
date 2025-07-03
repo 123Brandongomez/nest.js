@@ -1,4 +1,3 @@
-
 {
     "data": {
         "data": [
@@ -12,7 +11,7 @@
                 "estado": true,
                 "fecha_creacion": "2025-06-01T06:49:05.299Z",
                 "es_submenu": true,
-                "modulo_padre_id": 18
+                "modulo_padre_id": 1
             },
             {
                 "id_modulo": 2,
@@ -24,7 +23,7 @@
                 "estado": true,
                 "fecha_creacion": "2025-06-01T06:49:05.299Z",
                 "es_submenu": true,
-                "modulo_padre_id": 18
+                "modulo_padre_id": 1
             },
             {
                 "id_modulo": 3,
@@ -36,7 +35,7 @@
                 "estado": true,
                 "fecha_creacion": "2025-06-01T06:49:05.299Z",
                 "es_submenu": true,
-                "modulo_padre_id": 18
+                "modulo_padre_id": 1
             },
             {
                 "id_modulo": 4,
@@ -48,7 +47,7 @@
                 "estado": true,
                 "fecha_creacion": "2025-06-01T06:49:05.299Z",
                 "es_submenu": true,
-                "modulo_padre_id": 18
+                "modulo_padre_id": 1
             },
             {
                 "id_modulo": 5,
@@ -60,7 +59,7 @@
                 "estado": true,
                 "fecha_creacion": "2025-06-01T06:49:05.299Z",
                 "es_submenu": true,
-                "modulo_padre_id": 19
+                "modulo_padre_id": 2
             },
             {
                 "id_modulo": 6,
@@ -72,7 +71,7 @@
                 "estado": true,
                 "fecha_creacion": "2025-06-01T06:49:05.299Z",
                 "es_submenu": true,
-                "modulo_padre_id": 19
+                "modulo_padre_id": 2
             },
             {
                 "id_modulo": 7,
@@ -84,7 +83,7 @@
                 "estado": true,
                 "fecha_creacion": "2025-06-01T06:49:05.299Z",
                 "es_submenu": true,
-                "modulo_padre_id": 19
+                "modulo_padre_id": 2
             },
             {
                 "id_modulo": 8,
@@ -96,7 +95,7 @@
                 "estado": true,
                 "fecha_creacion": "2025-06-01T06:49:05.299Z",
                 "es_submenu": true,
-                "modulo_padre_id": 19
+                "modulo_padre_id": 2
             },
             {
                 "id_modulo": 9,
@@ -108,7 +107,7 @@
                 "estado": true,
                 "fecha_creacion": "2025-06-01T06:49:05.299Z",
                 "es_submenu": true,
-                "modulo_padre_id": 19
+                "modulo_padre_id": 2
             },
             {
                 "id_modulo": 10,
@@ -120,7 +119,7 @@
                 "estado": true,
                 "fecha_creacion": "2025-06-01T06:49:05.299Z",
                 "es_submenu": true,
-                "modulo_padre_id": 20
+                "modulo_padre_id": 3
             },
             {
                 "id_modulo": 11,
@@ -132,7 +131,7 @@
                 "estado": true,
                 "fecha_creacion": "2025-06-01T06:49:05.299Z",
                 "es_submenu": true,
-                "modulo_padre_id": 20
+                "modulo_padre_id": 3
             },
             {
                 "id_modulo": 12,
@@ -144,7 +143,7 @@
                 "estado": true,
                 "fecha_creacion": "2025-06-01T06:49:05.299Z",
                 "es_submenu": true,
-                "modulo_padre_id": 20
+                "modulo_padre_id": 3
             },
             {
                 "id_modulo": 13,
@@ -156,7 +155,7 @@
                 "estado": true,
                 "fecha_creacion": "2025-06-01T06:49:05.299Z",
                 "es_submenu": true,
-                "modulo_padre_id": 20
+                "modulo_padre_id": 3   
             },
             {
                 "id_modulo": 14,
@@ -168,7 +167,7 @@
                 "estado": true,
                 "fecha_creacion": "2025-06-01T06:49:05.299Z",
                 "es_submenu": true,
-                "modulo_padre_id": 20
+                "modulo_padre_id": 3
             },
             {
                 "id_modulo": 15,
@@ -180,7 +179,7 @@
                 "estado": true,
                 "fecha_creacion": "2025-06-01T06:49:05.299Z",
                 "es_submenu": true,
-                "modulo_padre_id": 20
+                "modulo_padre_id": 3
             },
             {
                 "id_modulo": 16,
@@ -192,7 +191,7 @@
                 "estado": true,
                 "fecha_creacion": "2025-06-01T06:49:05.299Z",
                 "es_submenu": true,
-                "modulo_padre_id": 21
+                "modulo_padre_id": 4
             },
             {
                 "id_modulo": 17,
@@ -204,9 +203,9 @@
                 "estado": true,
                 "fecha_creacion": "2025-06-01T06:49:05.299Z",
                 "es_submenu": true,
-                "modulo_padre_id": 21
+                "modulo_padre_id": 4
             },{
-                "id_modulo": 18,
+                "id_modulo": 1,
                 "fecha_accion": "2025-06-01T06:49:05.299Z",
                 "rutas": "Administración",
                 "descripcion_ruta": "Administración",

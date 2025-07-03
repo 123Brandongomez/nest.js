@@ -1,17 +1,16 @@
-import { IsInt, IsNotEmpty, IsOptional, IsPositive, IsString } from 'class-validator';
+import { IsInt, IsNotEmpty, IsOptional, IsPositive, IsBoolean } from 'class-validator';
 
 export class CreateCaracteristicaDto {
-  @IsNotEmpty()
-  @IsString()
-  placa_sena: boolean;
+  @IsOptional() // Si quieres que sea opcional
+  @IsBoolean()
+  placa_sena?: boolean;
 
-  @IsNotEmpty()
-  @IsString()
-  descripcion: boolean;
+  @IsOptional()
+  @IsBoolean()
+  descripcion?: boolean;
 
   @IsNotEmpty()
   @IsInt()
   @IsPositive()
   material_id: number;
-
 }

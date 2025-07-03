@@ -50,8 +50,5 @@ export class CreateMaterialeDto {
     @Type(() => Number)
     tipo_material_id: number;
 
-    @IsNotEmpty()
-    @IsNumber()
-    @Type(() => Number)
-    sitio_id: number;
+
 }

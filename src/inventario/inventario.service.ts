@@ -5,7 +5,6 @@ import { CreateInventarioDto } from './dto/create-inventario.dto';
 import { UpdateInventarioDto } from './dto/update-inventario.dto';
 import { Inventario } from './entities/inventario.entity';
 import { Sitio } from '../sitios/entities/sitio.entity';
-import { Caracteristica } from '../caracteristicas/entities/caracteristica.entity'; // Importa la entidad Caracteristica
 
 @Injectable()
 export class InventarioService {
@@ -14,44 +13,23 @@ export class InventarioService {
     private readonly inventarioRepo: Repository<Inventario>,
     @InjectRepository(Sitio)
     private readonly sitioRepo: Repository<Sitio>,
-    @InjectRepository(Caracteristica)
-    private readonly caracteristicaRepo: Repository<Caracteristica>, // Inyecta el repositorio
   ) {}
 
   async create(createInventarioDto: CreateInventarioDto): Promise<Inventario> {
-  const { sitio_id, material_id, stock, placa_sena, descripcion } = createInventarioDto;
+    const { sitio_id, stock, placa_sena, descripcion } = createInventarioDto;
 
-  const sitio = await this.sitioRepo.findOneBy({ id_sitio: sitio_id });
-  if (!sitio) throw new NotFoundException(`Sitio con ID ${sitio_id} no encontrado`);
+    const sitio = await this.sitioRepo.findOneBy({ id_sitio: sitio_id });
+    if (!sitio) throw new NotFoundException(`Sitio con ID ${sitio_id} no encontrado`);
 
-  // Traer las características del material
-  const caracteristica = await this.caracteristicaRepo.findOne({
-    where: { material: { id_material: material_id } },
-    relations: ['material'],
-  });
+    const inventario = this.inventarioRepo.create({
+      sitio,
+      stock,
+      placa_sena,
+      descripcion,
+    });
 
-  if (!caracteristica) throw new NotFoundException(`Características para el material ${material_id} no encontradas`);
-
-  const inventario = this.inventarioRepo.create({ sitio, stock });
-
-  // Validar si se requiere cada dato y si se recibió
-  if (caracteristica.placa_sena) {
-    if (!placa_sena) {
-      throw new BadRequestException(`Se requiere el valor de "placa_sena" para este material`);
-    }
-    inventario.placa_sena = placa_sena;
+    return this.inventarioRepo.save(inventario);
   }
-
-  if (caracteristica.descripcion) {
-    if (!descripcion) {
-      throw new BadRequestException(`Se requiere la "descripcion" para este material`);
-    }
-    inventario.descripcion = descripcion;
-  }
-
-  return this.inventarioRepo.save(inventario);
-}
-
 
   async findAll(): Promise<Inventario[]> {
     return this.inventarioRepo.find({
@@ -92,6 +70,14 @@ export class InventarioService {
 
     if (updateInventarioDto.stock !== undefined) {
       inventario.stock = updateInventarioDto.stock;
+    }
+
+    if (updateInventarioDto.placa_sena !== undefined) {
+      inventario.placa_sena = updateInventarioDto.placa_sena;
+    }
+
+    if (updateInventarioDto.descripcion !== undefined) {
+      inventario.descripcion = updateInventarioDto.descripcion;
     }
 
     return this.inventarioRepo.save(inventario);

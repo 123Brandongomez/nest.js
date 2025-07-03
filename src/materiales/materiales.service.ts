@@ -23,7 +23,7 @@ export class MaterialesService {
 
   async create(dto: CreateMaterialeDto): Promise<Material> {
     try {
-      const { categoria_id, tipo_material_id, sitio_id, ...materialData } = dto;
+      const { categoria_id, tipo_material_id, ...materialData } = dto;
 
       const nuevoMaterial = this.materialRepo.create(materialData);
       const materialGuardado = await this.materialRepo.save(nuevoMaterial);
@@ -42,12 +42,7 @@ export class MaterialesService {
           .set(tipo_material_id);
       }
 
-      if (sitio_id) {
-        await this.materialRepo.createQueryBuilder()
-          .relation(Material, 'sitio')
-          .of(materialGuardado.id_material)
-          .set(sitio_id);
-      }
+      
 
       return this.findOne(materialGuardado.id_material);
     } catch (error) {

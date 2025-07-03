@@ -7,10 +7,10 @@ export class Caracteristica {
   id_caracteristica: number;
 
   @Column({ default: false })
-  placa_sena: boolean;
+  placa_sena?: boolean;
 
   @Column({ default: false })
-  descripcion: boolean;
+  descripcion?: boolean;
 
   @ManyToOne(() => Material, material => material.caracteristicas)
   @JoinColumn({ name: 'material_id' })
